@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Therap_Car_Race.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  m_configObjects:
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: ab70df2ac5d3e3a4482ec7cd0e1b37b5, type: 2}
+    com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 4110485f2b472dc44b997b4e664b0022, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 63f0c6c2fe85fc94ab19875ed6c8c021, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 9770b2d0ab2754946b27d13666f26993, type: 2}
