@@ -1,5 +1,4 @@
 using UnityEngine;
-using CarterGames.Assets.LeaderboardManager;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Collections;
 public class LeaderboardUI : MonoBehaviour
 {
 
-    //This script is for local leaderboard. ***********************************************************************************************************************
+    /*//This script is for local leaderboard. ***********************************************************************************************************************
     public GameObject entryPrefab; // Prefab for leaderboard entry (assign in Inspector)
     public Transform scrollViewContent; // Content GameObject of the Scroll View (assign in Inspector)
     public GameObject LBUI;
@@ -84,7 +83,7 @@ public class LeaderboardUI : MonoBehaviour
         }
         
     }
-
+    */
 
 
 }
