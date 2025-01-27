@@ -51640,6 +51640,10 @@ PrefabInstance:
       propertyPath: pointerRect
       value: 
       objectReference: {fileID: 191012488}
+    - target: {fileID: 6459712470278200550, guid: f0b4a7d788d95b14d810d2366085eb71, type: 3}
+      propertyPath: sensitivity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8482343214914635886, guid: f0b4a7d788d95b14d810d2366085eb71, type: 3}
       propertyPath: m_Name
       value: 'LeapPointer '

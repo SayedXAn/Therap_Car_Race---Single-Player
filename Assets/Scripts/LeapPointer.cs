@@ -18,8 +18,9 @@ public class LeapPointerController : MonoBehaviour
     private float leapXMax = 0.1f;
 
     public float pinchThreshold = 0.02f;
-    public float sensitivity = 1.0f; // Sensitivity multiplier
-    public float bottomBuffer = -540f; // Sensitivity multiplier
+    public float sensitivity = 2.0f; // Sensitivity multiplier
+    public float yBuffer = -540f; // Sensitivity multiplier
+    public float xBuffer = -960f; // Sensitivity multiplier
     public float scrollSpeed = 0.3f;
     private PointerEventData pointerEventData;
     private EventSystem eventSystem;
@@ -35,9 +36,10 @@ public class LeapPointerController : MonoBehaviour
     {
         Vector3 tipPosition = GetLeapTipPosition();
         Vector2 canvasPosition = ConvertToCanvasSpace(tipPosition);
-        float temp = Mathf.Clamp((canvasPosition.y + bottomBuffer) * sensitivity, -540f, 540f);
+        float tempY = Mathf.Clamp((canvasPosition.y + yBuffer) * sensitivity * 1.5f, yBuffer, (yBuffer * -1));
+        float tempX = Mathf.Clamp((canvasPosition.x + xBuffer) * sensitivity, xBuffer, (xBuffer * -1));
         //Debug.Log(temp);
-        pointerRect.anchoredPosition = new Vector2(canvasPosition.x, temp);
+        pointerRect.anchoredPosition = new Vector2(tempX, tempY);
         RaycastButton();
     }
 
@@ -122,22 +124,30 @@ public class LeapPointerController : MonoBehaviour
         Hand hand = GetHand();
         if (hand != null && hand.fingers.Length > 1)
         {
-            return hand.fingers[1].TipPosition;
+            pointerRect.gameObject.SetActive(true);
+            //return hand.fingers[1].TipPosition;
+            return hand.PalmPosition;
+        }
+        else
+        {
+            pointerRect.gameObject.SetActive(false);
         }
         return Vector3.zero;
     }
 
     private Vector2 ConvertToCanvasSpace(Vector3 leapPosition)
     {
-        float normalizedX = Mathf.Clamp((leapPosition.x - leapXMin) / (leapXMax - leapXMin), -1f, 1f) * sensitivity;
-        float normalizedY = Mathf.Clamp((leapPosition.z - leapZMin) / (leapZMax - leapZMin), -1f, 1f) ;
+        float normalizedX = Mathf.Clamp((leapPosition.x - leapXMin) / (leapXMax - leapXMin), -1f, 1f);
+        float normalizedY = Mathf.Clamp((leapPosition.z - leapZMin) / (leapZMax - leapZMin), -1f, 1f);
         //Debug.Log(normalizedY);
-        float canvasX = normalizedX * (canvasRect.sizeDelta.x / 2);
-        float canvasY = normalizedY * (canvasRect.sizeDelta.y ) ;
+        //float canvasX = normalizedX * (canvasRect.sizeDelta.x / 2);
+        float canvasX = normalizedX * (canvasRect.sizeDelta.x);
+        float canvasY = normalizedY * (canvasRect.sizeDelta.y);
 
-        canvasX = Mathf.Clamp(canvasX, -canvasRect.sizeDelta.x / 2, canvasRect.sizeDelta.x / 2);
+        //canvasX = Mathf.Clamp(canvasX, -canvasRect.sizeDelta.x / 2, canvasRect.sizeDelta.x / 2);
+        canvasX = Mathf.Clamp(canvasX, -1, 1920f);
         canvasY = Mathf.Clamp(canvasY, -1, 1080f);
-        
+
 
         return new Vector2(canvasX, canvasY);
     }
@@ -147,19 +157,13 @@ public class LeapPointerController : MonoBehaviour
         Frame frame = leapController.Frame();
         if (frame.Hands.Count > 0)
         {
-            pointerRect.gameObject.SetActive(true);
             return frame.Hands[0];
         }
-        else
-        {
-            pointerRect.gameObject.SetActive(false);
-            return null;
-        }
-        
+        return null;
     }
     private void HandleScroll(ScrollRect scrollRect)
     {
-         // Adjust the sensitivity for scroll movement
+        // Adjust the sensitivity for scroll movement
 
         // Scroll direction based on pinch gesture or manual trigger
         float scrollDirection = IsPinchGesture() ? -1f : 1f;
