@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
     private int totalCar;    
     private float countTime = 0f;    
     private int playerPos = -2;
+    private bool shouldSelect = true;
 
 
 
@@ -74,54 +75,69 @@ public class UIManager : MonoBehaviour
     }
 
 
+
     public void NextCar()
     {
-        if (current_car == totalCar - 1)
+        if(shouldSelect)
         {
-            current_car = 0;
-        }
-        else
-        {
-            current_car++;
-        }
-        for (int i = 0; i < totalCar; i++)
-        {
-            if (i == current_car)
+            shouldSelect = false;
+            if (current_car == totalCar - 1)
             {
-                cars[i].SetActive(true);
+                current_car = 0;
             }
             else
             {
-                cars[i].SetActive(false);
+                current_car++;
             }
+            for (int i = 0; i < totalCar; i++)
+            {
+                if (i == current_car)
+                {
+                    cars[i].SetActive(true);
+                }
+                else
+                {
+                    cars[i].SetActive(false);
+                }
+            }
+            StartCoroutine(CarSelectionDelay());
         }
 
     }
 
     public void PreviousCar()
     {
-        if (current_car == 0)
+        if(shouldSelect)
         {
-            current_car = totalCar - 1;
-        }
-        else
-        {
-            current_car--;
-        }
-        for (int i = totalCar - 1; i >=0; i--)
-        {
-            if (i == current_car)
+            shouldSelect = false;            
+            if (current_car == 0)
             {
-                cars[i].SetActive(true);
+                current_car = totalCar - 1;
             }
             else
             {
-                cars[i].SetActive(false);
+                current_car--;
             }
+            for (int i = totalCar - 1; i >= 0; i--)
+            {
+                if (i == current_car)
+                {
+                    cars[i].SetActive(true);
+                }
+                else
+                {
+                    cars[i].SetActive(false);
+                }
+            }
+            StartCoroutine(CarSelectionDelay());
         }
 
     }
-
+    IEnumerator CarSelectionDelay()
+    {
+        yield return new WaitForSeconds(0.25f);
+        shouldSelect = true;
+    }
     public void LeaderboardButton()
     {
         lb.GenerateLeaderboard();   
